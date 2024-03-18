@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+	<head>
+		{% if title %}
+		<title>{{title}} - StreetVendor</title>
+		{% else %}
+		<title>Welcome to StreetVendor</title>
+		{% endif %}
+	</head>
+	<body>
+		<div>
+			<a href='{{url_for('home')}}'>Home</a>
+			<a href='{{url_for('apply')}}'>Apply here</a>
+		</div>
+		<hr>
+		{% block content %}
+		{% endblock %}
+	</body>
+</html>
