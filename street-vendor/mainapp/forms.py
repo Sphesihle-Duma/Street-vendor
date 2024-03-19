@@ -12,7 +12,7 @@ class Permit(FlaskForm):
        A form for applying for a permit
     '''
     vendor_name = StringField('Vendor name', validators=[DataRequired()])
-    vendor_email = StringField('Vendor email', validators=[DataRequired()])
+    vendor_email = StringField('Vendor email', validators=[DataRequired(), Email()])
     street_name = StringField('Street name', validators=[DataRequired()])
     space_number = SelectField('Street number', choices=[1, 2, 3, 4], validators=[DataRequired()])
     start_date = DateField('Start date', validators=[DataRequired()], format='%Y-%m-%d')
