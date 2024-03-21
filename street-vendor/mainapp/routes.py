@@ -2,10 +2,12 @@
 '''
    Module for application routes
 '''
-from mainapp import app
+from mainapp import app, db
 from flask import render_template, url_for, redirect, flash
 from mainapp.forms import Permit
 from datetime import datetime
+from mainapp.models import Street, Space
+import sqlalchemy as sa
 
 
 @app.route('/')
@@ -40,6 +42,16 @@ def apply():
         street_name = data['street_name']
         space_number = data['space_number']
         about_business = data['about_business']
+        street_space = (
+                db.session.query(Street)
+                .join(Space, Street.street_id == Space.street_id)
+                .filter(Space.space_number == space_number)  
+                .filter(Street.street_name == street_name)
+                .first()
+                )
+        if street_space is None:
+            flash(f'{street_name} does not have {space_number}')
+            return render_template('application_form.html', title='application', form=form)
         return redirect(url_for('home'))
 
     return render_template('application_form.html', title='application', form=form)

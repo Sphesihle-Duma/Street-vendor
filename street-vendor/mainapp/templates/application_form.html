@@ -17,14 +17,14 @@
 	   {% endfor %}
 	</p>
 	<p>
-	    {{form.street_name.label}}<br>
-	    {{form.street_name(size=32)}}<br>
+	    {{form.street_name.label}}:
+	    {{form.street_name()}}<br>
 	    {% for error in form.street_name.errors %}
 	    <span style='color:red;'>[{{error}}]</span>
 	    {% endfor%}
 	</p>
 	<p>
-	    {{form.space_number.label}}<br>
+	    {{form.space_number.label}}:
 	    {{form.space_number()}}<br>
         </p>
 	<p>
