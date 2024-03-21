@@ -6,7 +6,7 @@ from mainapp import app, db
 from flask import render_template, url_for, redirect, flash
 from mainapp.forms import Permit
 from datetime import datetime
-from mainapp.models import Street, Space
+from mainapp.models import Street, Space, Permit
 import sqlalchemy as sa
 
 
@@ -52,6 +52,19 @@ def apply():
         if street_space is None:
             flash(f'{street_name} does not have {space_number}')
             return render_template('application_form.html', title='application', form=form)
+        registered_vendor = (
+                db.session.query(Permit)
+                .filter(Permit.vendor_email == vendor_email)
+                .first()
+                )
+        if registerd_vendor:
+            flash('You already have a permit')
+        taken_space = (
+                db.session.query(Permit)
+                .filter(Permit.street_name == street_name)
+                .filter(Permit.space_number == space_number)
+                .first()
+                )
         return redirect(url_for('home'))
 
     return render_template('application_form.html', title='application', form=form)
