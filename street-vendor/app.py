@@ -5,14 +5,14 @@
 from mainapp import app, db
 import sqlalchemy as sa
 import sqlalchemy.orm as so
-from mainapp.models import Street, Space
+from mainapp.models import Street, Space, Permit
 
 @app.shell_context_processor
 def make_shell_context():
     '''
        Setting flask shell context
     '''
-    return {'sa': sa, 'so': so, 'db': db, 'Street': Street, 'Space': Space}
+    return {'sa': sa, 'so': so, 'db': db, 'Street': Street, 'Space': Space, 'Permit': Permit}
 
 
 if __name__ == '__main__':

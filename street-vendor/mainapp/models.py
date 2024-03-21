@@ -2,6 +2,7 @@
 '''
    A module for models representing tables
 '''
+from datetime import datetime, timezone
 from typing import Optional
 import sqlalchemy as sa
 import sqlalchemy.orm as so
@@ -38,3 +39,27 @@ class Space(db.Model):
            string represention of the space object
         '''
         return '<Space {}>'.format(self.space_number)
+
+
+class Permit(db.Model):
+    '''
+       A model representing permit table
+    '''
+    id: so.Mapped[int] = so.mapped_column(primary_key=True)
+    vendor_name: so.Mapped[str] = so.mapped_column(sa.String(64), index=True,
+                                                   unique=True)
+    street_name: so.Mapped[str] = so.mapped_column(sa.String(64), index=True,
+                                                   unique=True)
+    space_number: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Space.space_number),
+                                                    index=True)
+    about_business: so.Mapped[str] = so.mapped_column(sa.String(140))
+    start_date: so.Mapped[datetime] = so.mapped_column(sa.DateTime)
+    end_date: so.Mapped[datetime] = so.mapped_column(sa.DateTime)
+    created_at: so.Mapped[datetime] = so.mapped_column(default=lambda: datatime.now(timezone.utc))
+    status: so.Mapped[str] = so.mapped_column(sa.String(64), index=True)
+
+    def __repr__(self):
+        '''
+           Sting representation of permit object
+        '''
+        return '<Permit {}>'.format(self.vendor_name)
