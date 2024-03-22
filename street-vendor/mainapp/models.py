@@ -29,7 +29,7 @@ class Space(db.Model):
         A model representing a space table
     '''
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
-    space_number: so.Mapped[int] = so.mapped_column(unique=True)
+    space_number: so.Mapped[int] = so.mapped_column(unique=True, index=True)
     street_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Street.street_id),
                                                  index=True)
     street: so.Mapped[Street] = so.relationship(back_populates='spaces')
@@ -46,15 +46,15 @@ class Permit(db.Model):
        A model representing permit table
     '''
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
-    vendor_name: so.Mapped[str] = so.mapped_column(sa.String(64), index=True,
-                                                   unique=True)
+    vendor_name: so.Mapped[str] = so.mapped_column(sa.String(64), index=True)
+    vendor_email: so.Mapped[str] = so.mapped_column(sa.String(64), index=True,
+                                                    unique=True)
     street_name: so.Mapped[str] = so.mapped_column(sa.String(64), index=True)
-    space_number: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Space.space_number),
-                                                    index=True)
+    space_number: so.Mapped[int] = so.mapped_column(index=True, unique=True)
     about_business: so.Mapped[str] = so.mapped_column(sa.String(140))
     start_date: so.Mapped[datetime] = so.mapped_column(sa.DateTime)
     end_date: so.Mapped[datetime] = so.mapped_column(sa.DateTime)
-    created_at: so.Mapped[Optional[datetime]] = so.mapped_column(default=lambda: datatime.now(timezone.utc))
+    created_at: so.Mapped[Optional[datetime]] = so.mapped_column(default=lambda: datetime.now(timezone.utc))
     status: so.Mapped[str] = so.mapped_column(sa.String(64), index=True)
 
     def __repr__(self):

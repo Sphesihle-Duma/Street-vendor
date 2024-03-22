@@ -4,13 +4,14 @@
 '''
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, DateField, SelectField, TextAreaField
+from wtforms import PasswordField, BooleanField
 from wtforms.validators import DataRequired, Email, Length
 import sqlalchemy as sa
 from mainapp import db
 from mainapp.models import Space, Street
 
 
-class Permit(FlaskForm):
+class PermitForm(FlaskForm):
     '''
        A form for applying for a permit
     '''
@@ -27,7 +28,17 @@ class Permit(FlaskForm):
         '''
            A constructor for initializing
         '''
-        super(Permit, self).__init__(*args, **kwargs)
+        super(PermitForm, self).__init__(*args, **kwargs)
 
         self.space_number.choices = [space.space_number for space in Space.query.all()]
         self.street_name.choices = [street.street_name for street in Street.query.all()]
+
+
+class LoginForm(FlaskForm):
+    '''
+       login form to capture login details
+    '''
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    remember_me = BooleanField('Remember me')
+    submit = SubmitField('Log In')
