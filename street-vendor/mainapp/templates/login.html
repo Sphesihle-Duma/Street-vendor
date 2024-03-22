@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+{% if status == False %}
 <h1>Login</h1>
 <form action='' method='POST' novalidate>
 	{{form.hidden_tag()}}
@@ -23,4 +24,63 @@
 	</p>
 	{{form.submit()}}
 </form>
+{% else %}
+<div>
+   <h1>Dashboard</h1>
+   <h4>{{current_user.username}}</h4> 
+   <a href='{{url_for('logout')}}'>Logout</a>
+</div>
+
+{% if permits|length() > 0 %}
+<table>
+	<thead>
+		<tr>
+			<th>Vendor</th>
+			<th>Email</th>
+			<th>Street</th>
+			<th>Space</th>
+			<th>Start date</th>
+			<th>End date</th>
+			<th>status</th>
+			<th>Action</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for permit in permits %}
+		<tr>
+			<td>{{permit['vendor_name']}}</td>
+			<td>{{permit['vendor_email']}}</td>
+			<td>{{permit['street_name']}}</td>
+			<td>{{permit['space_number']}}</td>
+			<td>{{permit['start_date']}}</td>
+			<td>{{permit['end_date']}}</td>
+			<td>{{permit['status']}}</td>
+			<td>
+				{% if permit['status'] == 'Pending'%}
+				<button>Approve</button>
+				<button>Decline</button>
+				{% else %}
+				   {{permit['status']}}
+				{% endif%}
+
+			</td>
+			<td>
+				{% if permit['status'] == 'Pending'%}
+				<b>Waiting</b>
+				{% elif permit['status'] == 'Declined'%}
+				<button>Remove</button>
+				<b>OK</b>
+				{% endif %}
+			</td>
+
+		</tr>
+		{% endfor%}
+		
+	</tbody>
+</table>
+{% else %}
+<p>No permits record available.</p>
+{% endif %}
+{%endif%}
 {% endblock%}

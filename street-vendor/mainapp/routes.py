@@ -7,7 +7,7 @@ from flask import render_template, url_for, redirect, flash
 from mainapp.forms import PermitForm, LoginForm
 from datetime import datetime
 from mainapp.models import Street, Space, Permit, User
-from flask_login import current_user, login_user
+from flask_login import current_user, login_user, logout_user
 import sqlalchemy as sa
 import sqlalchemy.exc as sa_exc
 
@@ -123,5 +123,17 @@ def login():
             return redirect(url_for('login'))
 
         login_user(user, remember=form_data['remember_me'])
-        return redirect(url_for('home'))
-    return render_template('login.html', title='login', form=form)
+        permit_query = sa.select(Permit)
+        permits = db.session.scalars(permit_query).all()
+        print(permits)
+        return render_template('login.html', title='login', form=form, status=status, permits=permits)
+
+    return render_template('login.html', title='login', form=form, status=status)
+
+@app.route('/logout')
+def logout():
+    '''
+       Logging user out
+    '''
+    logout_user()
+    return redirect(url_for('home'))
