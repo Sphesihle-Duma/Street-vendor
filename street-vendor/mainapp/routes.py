@@ -6,7 +6,8 @@ from mainapp import app, db
 from flask import render_template, url_for, redirect, flash
 from mainapp.forms import PermitForm, LoginForm
 from datetime import datetime
-from mainapp.models import Street, Space, Permit
+from mainapp.models import Street, Space, Permit, User
+from flask_login import current_user, login_user
 import sqlalchemy as sa
 import sqlalchemy.exc as sa_exc
 
@@ -85,6 +86,7 @@ def apply():
             db.session.add(new_permit)
             db.session.commit()
             flash('Permit record added successfully!', 'success')
+
         except sa_exc.SQLAlchemyError as e:
             db.session.rollback()
             flash('Failed to add permit record. Please try again.', 'error')
@@ -96,10 +98,30 @@ def apply():
     return render_template('application_form.html', title='application', form=form)
 
 
-@app.route('/login')
+@app.route('/login', methods=['POST', 'GET'])
 def login():
     '''
        View function that renders login form
     '''
+    status = False
+    if current_user.is_authenticated:
+        status = True
+
     form = LoginForm()
+
+    if form.validate_on_submit():
+        form_data = form.data
+        query = sa.select(User).where(User.username == form_data['username'])
+        user = db.session.scalar(query)
+
+        if user is None:
+            flash('Invalid username')
+            return redirect(url_for('login'))
+
+        if not user.check_password(form_data['password']):
+            flash('Incorrect password')
+            return redirect(url_for('login'))
+
+        login_user(user, remember=form_data['remember_me'])
+        return redirect(url_for('home'))
     return render_template('login.html', title='login', form=form)

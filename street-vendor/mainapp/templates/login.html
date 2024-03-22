@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 <h1>Login</h1>
-<form>
+<form action='' method='POST' novalidate>
 	{{form.hidden_tag()}}
 	<p>
 	  {{form.username.label}}<br>
