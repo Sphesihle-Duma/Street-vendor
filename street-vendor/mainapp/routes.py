@@ -2,14 +2,17 @@
 '''
    Module for application routes
 '''
-from mainapp import app, db
-from flask import render_template, url_for, redirect, flash
+from mainapp import app, db, mail
+from flask import render_template, url_for, redirect, flash, request, abort
 from mainapp.forms import PermitForm, LoginForm
 from datetime import datetime
 from mainapp.models import Street, Space, Permit, User
-from flask_login import current_user, login_user, logout_user
+from flask_login import current_user, login_user, logout_user, login_required
 import sqlalchemy as sa
+from flask_mail import Message
+from urllib.parse import urlsplit
 import sqlalchemy.exc as sa_exc
+import logging
 
 
 @app.route('/')
@@ -103,9 +106,10 @@ def login():
     '''
        View function that renders login form
     '''
-    status = False
     if current_user.is_authenticated:
-        status = True
+        query = sa.select(Permit)
+        permits = db.session.scalars(query).all()
+        return render_template('dashboard.html', title='dashboard', permits=permits)
 
     form = LoginForm()
 
@@ -123,12 +127,11 @@ def login():
             return redirect(url_for('login'))
 
         login_user(user, remember=form_data['remember_me'])
-        permit_query = sa.select(Permit)
-        permits = db.session.scalars(permit_query).all()
-        print(permits)
-        return render_template('login.html', title='login', form=form, status=status, permits=permits)
+        query = sa.select(Permit)
+        permits = db.session.scalars(query).all()
+        return render_template('dashboard.html', title='dashboard', permits=permits)
 
-    return render_template('login.html', title='login', form=form, status=status)
+    return render_template('login.html', title='login',form=form)
 
 @app.route('/logout')
 def logout():
@@ -137,3 +140,43 @@ def logout():
     '''
     logout_user()
     return redirect(url_for('home'))
+
+@app.route('/send_email', methods=['PUT'])
+def send_mail():
+    '''
+       Updating the permit status and  send the email
+    '''
+    data = request.get_json()
+    new_status = data.get('new_status')
+    recipient_email = data.get('email')
+    app.logger.info('Recieved data: {data}')
+
+    # Check if new_status and email are provided
+    if not data or 'new_status' not in data or 'email' not in data:
+        flash('Invalid request payload')
+        abort(400)
+
+    # Query the database to find the permit by vendor email
+    query = sa.select(Permit).where(Permit.vendor_email == recipient_email)
+    permit = db.session.scalar(query)
+    print(permit.vendor_email)
+
+    # Check if the permit
+    if not permit:
+        flash('Permit not found')
+        abort(404)
+
+    # Update the permit status to the new status
+    permit.status = new_status
+
+    try:
+        db.session.commit()
+        print('after commiting')
+        flash('Successfully updated the status')
+        print('The status was successfully updated')
+        return redirect(url_for('login'))
+
+    except Exception as e:
+        db.session.rollback()
+        flash(f'The status was updated {str(e)}')
+        return redirect(url_for('login'))
