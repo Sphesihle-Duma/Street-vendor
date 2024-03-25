@@ -1,0 +1,9 @@
+Body{
+      background: linear-gradient(
+        45deg,
+        rgba(34, 59, 140, 1) 19%,
+        rgba(29, 145, 103, 1) 96%
+     );
+     color:white;
+    font-family: 'Times New Roman', Times, serif;
+}

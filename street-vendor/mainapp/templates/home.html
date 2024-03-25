@@ -1,4 +1,66 @@
 {%extends 'base.html' %}
 {% block content %}
-<h1>StreeVendor</h1>
+<h1 class='text-center mt-3'>Street Vendors</h1>
+
+<div class="row m-3">
+  <section class="col-md-6">
+    <h3 class="text-white">West street</h3>
+    <div class="card my-card">
+  <img src="{{url_for('static', filename='images/vendors-4.jpg')}}" class="rounded img-fluid" alt="vendors-4 picture">
+  <div class="card-body">
+    <h5 class="card-title">DBN vendors</h5>
+      <p class="card-text">
+          Our dedicated booking officers play a crucial role in managing the inmate booking process. They are responsible for verifying inmate information, conducting searches as necessary, and ensuring a smooth transition into the correctional facility. Our officers are trained to handle various situations professionally.
+      </p>
+  </div>
+  </div>
+
+  </section>
+  <section class="col-md-6">
+    <h3 class="text-white">Smith street</h3>
+    <div class="card my-card">
+  <img src="{{url_for('static', filename='images/vendors-5.jpg')}}" class="rounded img-fluid" alt="vendors-5 picture">
+  <div class="card-body">
+   <h5 class="card-title">PTN vendors</h5>
+      <p class="card-text">
+          It's essential to be familiar with our booking policies to maintain a safe and controlled environment. Policies cover aspects such as personal belongings, prohibited items, and behavior expectations during the booking process. Understanding and adhering to these policies help create a secure environment for everyone involved.
+      </p>
+  </div>
+</div>
+</section>
+
+  
+ </div>   
+
+
+
+ <div class="row m-3">
+  <section class="col-md-6">
+    <h3 class="text-white">Market road</h3>
+    <div class="card my-card">
+  <img src="{{url_for('static', filename='images/durban.jpg')}}" class="rounded img-fluid" alt="durban.jpg picture">
+  <div class="card-body">
+    <h5 class="card-title">Market vendor</h5>
+      <p class="card-text">
+          Our dedicated booking officers play a crucial role in managing the inmate booking process. They are responsible for verifying inmate information, conducting searches as necessary, and ensuring a smooth transition into the correctional facility. Our officers are trained to handle various situations professionally.
+      </p>
+  </div>
+  </div>
+
+  </section>
+  <section class="col-md-6">
+    <h3 class="text-white">Drividian road</h3>
+    <div class="card my-card">
+  <img src="{{url_for('static', filename='images/durban2.jpg')}}" class="rounded img-fluid" alt="durban2 picture">
+  <div class="card-body">
+   <h5 class="card-title">Ekasi vendor</h5>
+      <p class="card-text">
+          It's essential to be familiar with our booking policies to maintain a safe and controlled environment. Policies cover aspects such as personal belongings, prohibited items, and behavior expectations during the booking process. Understanding and adhering to these policies help create a secure environment for everyone involved.
+      </p>
+  </div>
+</div>
+</section>
+
+  
+ </div>   
 {% endblock %}
