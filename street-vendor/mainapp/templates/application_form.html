@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
-<form action='' method='POST' novalidate>
+<div class="container d-flex flex-colomn align-items-center justify-content-center w-75 my-4">
+<form class='w-75 my-card p-3' action='' method='POST' novalidate>
 	{{form.hidden_tag()}}
         <p>
 	   {{form.vendor_name.label}}<br>
@@ -51,4 +52,5 @@
         </p>
         <p>{{ form.submit() }}</p>
 </form>
+</div>
 {% endblock %}

@@ -1,0 +1,10 @@
+.my-card {
+      background: rgba(53, 145, 46, 0.16);
+      border-radius: 16px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      border: 1px solid rgba(53, 145, 46, 0.3);
+      /* Add any other styles specific to your cards */
+      color:white;
+    }
