@@ -2,9 +2,9 @@
 {% block content %}
 <h1 class='text-center'>Spaces</h1>
 {% if spaces %}
-<table class='table'>
+<table class='table text-white'>
 	<thead>
-		<tr>
+		<tr class='table-dark'>
 			<td>Street name</td>
 			<td>Space number</th>
 			<td>Availability</td>
@@ -23,4 +23,5 @@
 {% else %}
 <h1>No spaces</h1>
 {%endif%}
+
 {% endblock %}
