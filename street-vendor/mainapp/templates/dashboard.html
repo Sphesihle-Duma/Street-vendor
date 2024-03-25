@@ -1,22 +1,23 @@
 {% extends 'base.html'%}
 {% block content %}
-<div>
+<div class="vh-100">
+<div class="container  mb-1 d-flex flex-row pt-4 justify-content-between">
    <h1>Dashboard</h1>
    <h4>{{current_user.username}}</h4>
-   <a href='{{url_for('logout')}}'>Logout</a>
+   <a href='{{url_for('logout')}}' class="text-white align-self-center shadow p-1 text-decoration-none h5">Logout</a>
 </div>
 
 {% if permits|length() > 0 %}
-<table>
+<table class="table text-white table-dark table-hover table-responsive">
 	<thead>
-		<tr>
+		<tr class="table-info">
 			<th>Vendor</th>
 			<th>Email</th>
 			<th>Street</th>
 			<th>Space</th>
 			<th>Start date</th>
 			<th>End date</th>
-			<th>status</th>
+			<th>Status</th>
 			<th>Action</th>
 			<th>Notification</th>
 		</tr>
@@ -33,15 +34,15 @@
 			<td>{{permit['status']}}</td>
 			<td>
 				{% if permit['status'] == 'Pending'%}
-				<button class='approve-button' data-email='{{permit['vendor_email']}}'>Approve</button>
-				<button class='decline-button' data-email={{permit['vendor_email']}}>Decline</button>
+				<button class='approve-button btn btn-primary btn-sm' data-email='{{permit['vendor_email']}}'>Approve</button>
+				<button class='decline-button btn btn-danger btn-sm' data-email={{permit['vendor_email']}}>Decline</button>
 				{% else %}
 				   {{permit['status']}}
 				{% endif%}
 
 			</td>
 			<td>
-				<button>Send</button>
+				<button class="btn btn-success btn-sm" >Send</button>
 			</td>
 
 		</tr>
@@ -52,5 +53,5 @@
 {% else %}
 <p>No permits record available.</p>
 {% endif %}
-
+</div>
 {% endblock%}

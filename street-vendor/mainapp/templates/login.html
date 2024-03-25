@@ -1,26 +1,29 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Login</h1>
-<form action='' method='POST' novalidate>
-	{{form.hidden_tag()}}
-	<p>
-	  {{form.username.label}}<br>
-	  {{form.username(size=32)}}<br>
-	  {% for error in form.username.errors%}
-	  <span style='color:red;'>[{{error}}]</span>
-	  {% endfor %}
-	</p>
-	<p>
-	  {{form.password.label}}<br>
-	  {{form.password(size=32)}}<br>
-	  {% for error in form.password.errors%}
-	  <span style='color:red;'>[{{error}}]</span>
-	  {% endfor %}
-	</p>
-	<p>
-	{{form.remember_me()}}
-	{{form.remember_me.label}}<br>
-	</p>
-	{{form.submit()}}
-</form>
+<div class="container mt-3 py-5">
+    <div class=" vh-100 d-sm-flex flex-column p-2 justify-content-sm-center align-items-sm-center">
+	<form class="my-card p-5" action='' method='POST' novalidate>
+	    {{form.hidden_tag()}}
+	    <p>
+	       {{form.username.label}}<br>
+	       {{form.username(size=32)}}<br>
+	       {% for error in form.username.errors%}
+	       <span style='color:red;'>[{{error}}]</span>
+	       {% endfor %}
+	    </p>
+	    <p>
+	       {{form.password.label}}<br>
+	       {{form.password(size=32)}}<br>
+	       {% for error in form.password.errors%}
+	       <span style='color:red;'>[{{error}}]</span>
+	       {% endfor %}
+	    </p>
+	    <p>
+	       {{form.remember_me()}}
+	       {{form.remember_me.label}}<br>
+	    </p>
+	     {{form.submit(class="btn btn-primary")}}
+        </form>
+     </div>
+</div>
 {% endblock%}
