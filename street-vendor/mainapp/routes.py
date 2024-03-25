@@ -141,7 +141,7 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
-@app.route('/send_email', methods=['PUT'])
+@app.route('/update_permit', methods=['PUT'])
 def send_mail():
     '''
        Updating the permit status and  send the email
@@ -166,6 +166,12 @@ def send_mail():
         flash('Permit not found')
         abort(404)
 
+    space_num = permit.space_number
+    query = sa.select(Space).where(Space.space_number == space_num)
+    space = db.session.scalar(query)
+    if new_status == 'Approved':
+        space.availability = 'Occupied'
+
     # Update the permit status to the new status
     permit.status = new_status
 
@@ -180,3 +186,16 @@ def send_mail():
         db.session.rollback()
         flash(f'The status was updated {str(e)}')
         return redirect(url_for('login'))
+
+@app.route('/spaces')
+def find_space():
+    '''
+       view function for searching available spaces
+    '''
+    spaces = db.session.query(Space, Street).join(
+                                                    Street, 
+                                                    Street.street_id == Space.street_id
+                                                    ).all()
+    for space, street in spaces:
+        print(f"Space: {space.space_number} {space.availability}, Street: {street.street_name}")
+    return render_template('spaces.html', title='spaces', spaces=spaces)

@@ -18,7 +18,7 @@
 			<th>End date</th>
 			<th>status</th>
 			<th>Action</th>
-			<th>Action</th>
+			<th>Notification</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -41,12 +41,7 @@
 
 			</td>
 			<td>
-				{% if permit['status'] == 'Pending'%}
-				<b>Waiting</b>
-				{% elif permit['status'] == 'Declined'%}
-				<button>Remove</button>
-				<b>OK</b>
-				{% endif %}
+				<button>Send</button>
 			</td>
 
 		</tr>

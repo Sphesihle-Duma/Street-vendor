@@ -47,6 +47,8 @@ class Space(db.Model):
     space_number: so.Mapped[int] = so.mapped_column(unique=True, index=True)
     street_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Street.street_id),
                                                  index=True)
+    availability: so.Mapped[str] = so.mapped_column(sa.String(64), default='Available')
+
     street: so.Mapped[Street] = so.relationship(back_populates='spaces')
 
     def __repr__(self):

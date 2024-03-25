@@ -1,0 +1,25 @@
+{% extends 'base.html'%}
+{% block content %}
+{% if spaces %}
+<table>
+	<thead>
+		<tr>
+			<td>Street name</td>
+			<td>Space number</th>
+			<td>Availability</td>
+		</tr>
+	</thead>
+	<tbody>
+		{% for space, street in spaces %}
+		<tr>
+			<th>{{street.street_name}}</th>
+			<th>{{space.space_number}}</th>
+			<th>{{space.availability}}</th>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% else %}
+<h1>No spaces</h1>
+{%endif%}
+{% endblock %}
