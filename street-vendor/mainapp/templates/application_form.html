@@ -19,7 +19,7 @@
 	</p>
 	<p>
 	    {{form.street_name.label}}:
-	    {{form.street_name()}}<br>
+	    {{form.street_name(class="form-select")}}<br>
 	    {% for error in form.street_name.errors %}
 	    <span style='color:red;'>[{{error}}]</span>
 	    {% endfor%}
@@ -50,7 +50,7 @@
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
-        <p>{{ form.submit() }}</p>
+        <p>{{ form.submit(class="btn btn-primary")}}</p>
 </form>
 </div>
 {% endblock %}

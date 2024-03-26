@@ -196,6 +196,36 @@ def find_space():
                                                     Street, 
                                                     Street.street_id == Space.street_id
                                                     ).all()
-    for space, street in spaces:
-        print(f"Space: {space.space_number} {space.availability}, Street: {street.street_name}")
+    
     return render_template('spaces.html', title='spaces', spaces=spaces)
+
+@app.route('/send_email', methods=['PUT'])
+def send_email():
+    '''
+        sending the email to the user
+    '''
+    data = request.get_json()
+    recipient_email = data['email']
+    print("Application Configuration:")
+    for key, value in app.config.items():
+        print(f"{key}: {value}")
+    email_body = f'Thanks for your patience see details below regarding your application\n'
+    email_body += f'Email: {recipient_email}\n'
+   #email_body += f'Status: {new_status}\n'
+    email_body += f"Processed at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
+
+    mail_message = Message(
+                'Application status',
+                sender='dumasphesihle22@gmail.com',
+                recipients=[recipient_email]
+                )
+    mail_message.body = email_body
+    app.logger.info('sending the email')
+    try:
+        mail.send(mail_message)
+        flash('Successfully sent the email')
+        print('The email was successfully sent')
+        return redirect(url_for('login'))
+    except Exception as e:
+        flash(f'The email was not sent {str(e)}')
+        return redirect(url_for('login'))
