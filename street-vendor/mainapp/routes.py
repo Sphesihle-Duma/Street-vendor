@@ -142,7 +142,7 @@ def logout():
     return redirect(url_for('home'))
 
 @app.route('/update_permit', methods=['PUT'])
-def send_mail():
+def update_permit():
     '''
        Updating the permit status and  send the email
     '''
@@ -216,7 +216,7 @@ def send_email():
 
     mail_message = Message(
                 'Application status',
-                sender='dumasphesihle22@gmail.com',
+                sender='api@mailtrap.io',
                 recipients=[recipient_email]
                 )
     mail_message.body = email_body
