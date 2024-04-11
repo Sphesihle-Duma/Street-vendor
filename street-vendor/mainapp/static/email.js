@@ -11,7 +11,7 @@ jQuery(document).ready(function () {
 
       // Send a PUT request to update the permit status
       jQuery.ajax({
-        url: "http://127.0.0.1:5000/send_email",
+        url: "https://dumasphesihle.tech/send_email",
         type: "PUT",
         contentType: "application/json",
         data: JSON.stringify({email: email}),
