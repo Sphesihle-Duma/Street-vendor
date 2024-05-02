@@ -192,12 +192,22 @@ def find_space():
     '''
        view function for searching available spaces
     '''
+    page = request.args.get('page', 1, type=int)
     spaces = db.session.query(Space, Street).join(
                                                     Street, 
                                                     Street.street_id == Space.street_id
-                                                    ).all()
+                                                    ).paginate(page=page, per_page=6, error_out=False)
+
+    if spaces.has_next:
+        next_url = url_for('find_space', page=spaces.next_num)
+    else:
+        next_url = None
+    if spaces.has_prev:
+        prev_url = url_for('find_space', page=spaces.prev_num)
+    else:
+        prev_url = None
     
-    return render_template('spaces.html', title='spaces', spaces=spaces)
+    return render_template('spaces.html', title='spaces', spaces=spaces.items, next_url=next_url, prev_url=prev_url)
 
 @app.route('/send_email', methods=['PUT'])
 def send_email():

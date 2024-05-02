@@ -2,9 +2,15 @@
 {% block content %}
 <h1 class='text-center'>Spaces</h1>
 {% if spaces %}
-<table class='table text-white'>
+{% if prev_url %}
+  <a class="btn btn-success" role="button" href='{{prev_url}}'>previous spaces</a>
+{% endif %}
+{% if next_url %}
+  <a class='btn btn-success' href='{{next_url}}' role='button'>next spaces</a><br>
+{% endif %}
+<table class='table text-white table-dark table-hover table-responsive mt-2'>
 	<thead>
-		<tr class='table-dark'>
+		<tr class='table-info'>
 			<td>Street name</td>
 			<td>Space number</th>
 			<td>Availability</td>
@@ -13,7 +19,7 @@
 	<tbody>
 		{% for space, street in spaces %}
 		<tr>
-			<th>{{street.street_name}}</th>
+			<td>{{street.street_name}}</td>
 			<th>{{space.space_number}}</th>
 			<th>{{space.availability}}</th>
 		</tr>
