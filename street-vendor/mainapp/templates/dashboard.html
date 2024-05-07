@@ -8,6 +8,12 @@
 </div>
 
 {% if permits|length() > 0 %}
+{% if next_url %}
+  <a href='{{next_url}}'>next records</a>
+{% endif %}
+{% if prev_url %}
+  <a href='{{prev_url}}'>previous records</a>
+{% endif%}
 <table class="table text-white table-dark table-hover table-responsive">
 	<thead>
 		<tr class="table-info">

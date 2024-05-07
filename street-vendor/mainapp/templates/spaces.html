@@ -1,5 +1,6 @@
 {% extends 'base.html'%}
 {% block content %}
+<div class='vh-100'>
 <h1 class='text-center'>Spaces</h1>
 {% if spaces %}
 {% if prev_url %}
@@ -29,5 +30,5 @@
 {% else %}
 <h1>No spaces</h1>
 {%endif%}
-
+</div>
 {% endblock %}

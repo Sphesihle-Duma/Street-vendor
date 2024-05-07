@@ -128,8 +128,17 @@ def login():
 
         login_user(user, remember=form_data['remember_me'])
         query = sa.select(Permit)
-        permits = db.session.scalars(query).all()
-        return render_template('dashboard.html', title='dashboard', permits=permits)
+        page = request.args.get('page', 1, type=int)
+        permits = db.paginate(query, page=page, per_page=3, error_out=False)
+        if permits.has_next:
+            next_url = url_for('login', page=permits.next_num)
+        else:
+            next_url = None
+        if permits.has_prev:
+            prev_url = url_for('login', page=permits.prev_num)
+        else:
+            prev_url = None
+        return render_template('dashboard.html', title='dashboard', permits=permits.items, next_url=next_url, prev_url=prev_url)
 
     return render_template('login.html', title='login',form=form)
 
